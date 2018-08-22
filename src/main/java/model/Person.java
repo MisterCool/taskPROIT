@@ -23,7 +23,7 @@ public class Person {
     private String name;
     private String surname;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "parent_id")
     private Person parentPerson;
 
