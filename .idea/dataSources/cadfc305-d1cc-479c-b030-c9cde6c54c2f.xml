@@ -50,8 +50,8 @@
     <schema id="11" parent="2" name="public">
       <ObjectId>2200</ObjectId>
       <Comment>standard public schema</Comment>
-      <IntrospectionTimestamp>2018-08-09.17:33:58.327</IntrospectionTimestamp>
-      <IntrospectionStateNumber>748</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-08-25.17:00:00.141</IntrospectionTimestamp>
+      <IntrospectionStateNumber>741</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -97,29 +97,18 @@
       <HandlerId>335</HandlerId>
       <Type>index</Type>
     </access-method>
-    <sequence id="18" parent="11" name="person_name_id_seq">
-      <ObjectId>24851</ObjectId>
-      <StateNumber>748</StateNumber>
-      <SequenceIdentity>1</SequenceIdentity>
-      <BelongsToColumn>1</BelongsToColumn>
-      <CacheSize>1</CacheSize>
-    </sequence>
-    <sequence id="19" parent="11" name="person_id_seq">
+    <sequence id="18" parent="11" name="person_id_seq">
       <ObjectId>24816</ObjectId>
       <StateNumber>740</StateNumber>
       <SequenceIdentity>1</SequenceIdentity>
       <BelongsToColumn>1</BelongsToColumn>
       <CacheSize>1</CacheSize>
     </sequence>
-    <table id="20" parent="11" name="person">
+    <table id="19" parent="11" name="person">
       <ObjectId>24803</ObjectId>
       <StateNumber>714</StateNumber>
     </table>
-    <table id="21" parent="11" name="person_name">
-      <ObjectId>24853</ObjectId>
-      <StateNumber>748</StateNumber>
-    </table>
-    <column id="22" parent="20" name="id">
+    <column id="20" parent="19" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -128,90 +117,42 @@
       <TypeId>23</TypeId>
       <SequenceName>person_id_seq</SequenceName>
     </column>
-    <column id="23" parent="20" name="parent_id">
+    <column id="21" parent="19" name="parent_id">
       <Position>2</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>714</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="24" parent="20" name="name">
+    <column id="22" parent="19" name="name">
       <Position>3</Position>
       <DataType>varchar|0s</DataType>
       <StateNumber>714</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="25" parent="20" name="surname">
+    <column id="23" parent="19" name="surname">
       <Position>4</Position>
       <DataType>varchar|0s</DataType>
       <StateNumber>714</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="26" parent="20" name="person_pkey">
+    <index id="24" parent="19" name="person_pkey">
       <ObjectId>24809</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="27" parent="20" name="person_pkey">
+    <key id="25" parent="19" name="person_pkey">
       <ObjectId>24810</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>person_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="28" parent="20" name="person_parent_id_fkey">
+    <foreign-key id="26" parent="19" name="person_parent_id_fkey">
       <ObjectId>24811</ObjectId>
       <ColNames>parent_id</ColNames>
       <RefTableId>24803</RefTableId>
       <RefColPositions>1</RefColPositions>
       <RefTableName>person</RefTableName>
       <RefKeyName>person_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <column id="29" parent="21" name="id">
-      <Position>1</Position>
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>748</StateNumber>
-      <DefaultExpression>nextval(&apos;person_name_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>23</TypeId>
-      <SequenceName>person_name_id_seq</SequenceName>
-    </column>
-    <column id="30" parent="21" name="parent_id">
-      <Position>2</Position>
-      <DataType>integer|0s</DataType>
-      <StateNumber>748</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="31" parent="21" name="name">
-      <Position>3</Position>
-      <DataType>varchar(50)|0s</DataType>
-      <StateNumber>748</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="32" parent="21" name="surnname">
-      <Position>4</Position>
-      <DataType>varchar(50)|0s</DataType>
-      <StateNumber>748</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <index id="33" parent="21" name="person_name_pkey">
-      <ObjectId>24857</ObjectId>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <key id="34" parent="21" name="person_name_pkey">
-      <ObjectId>24858</ObjectId>
-      <ColNames>id</ColNames>
-      <UnderlyingIndexName>person_name_pkey</UnderlyingIndexName>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="35" parent="21" name="person_name_parent_id_fkey">
-      <ObjectId>24859</ObjectId>
-      <ColNames>parent_id</ColNames>
-      <RefTableId>24853</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>person_name</RefTableName>
-      <RefKeyName>person_name_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>

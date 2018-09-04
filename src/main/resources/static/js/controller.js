@@ -1,5 +1,9 @@
 angular.module('app', ['treeControl'])
-    .controller('myController', ['$scope', function($scope) {
+    .controller('myController', ['$scope','$http', function($scope, $http) {
+
+        $http.get('http://localhost:7001/TaskPROIT-1.0-SNAPSHOT/resources/users/tree').success(function(data) {
+            $scope.dataTree = data;
+        });
         $scope.treeOptions = {
             nodeChildren: "children",
             dirSelectable: true,
@@ -14,49 +18,54 @@ angular.module('app', ['treeControl'])
                 labelSelected: "a8"
             }
         }
-        $scope.dataTree = [{
-            "id":"1",
-            "name": "Joe",
-            "children": [{
-                "id": "2",
-                "name": "Smith",
-                "children": []
-            },
-                {
-                    "id": "3",
-                    "name": "Gary",
-                    "children": [{
-                        "id" : "4",
-                        "name": "Jenifer",
-                        "children": [{
-                            "id" : "5",
-                            "name": "Dani",
-                            "children": []
-                        },
-                            {
-                                "id" : "6",
-                                "name": "Max",
-                                "children": []
-                            }
-                        ]
-                    }]
-                }
-            ]
-        },
-            {
-                "id" : "7",
-                "name": "Albert",
-                "children": []
-            },
-            {
-                "id" : "8",
-                "name": "Ron",
-                "children": []
-            }
-        ];
 
-        $scope.addRoot = function()
-        {
-            $scope.dataTree.push({id:"9", name:"Vlad", children: "[]"});
+
+        $scope.clearSelected = function() {
+            $scope.selected = undefined;
+        }
+        $scope.selectNode = function(sel) {
+            $scope.selected = sel;
+            $scope.selectedId = sel.id;
         };
+
+        $scope.submitForm = function()
+        {
+            var config = {
+                headers : {
+                    'Content-Type':'application/json'
+                }
+            }
+            if($scope.selected == undefined)
+            {
+                var dataPerson =
+                    {
+                        "parentId": "null",
+                        "name": $scope.name,
+                        "surname": $scope.surname,
+                    };
+            }
+            else {
+                var dataPerson =
+                    {
+                        "parentId": $scope.selected.id,
+                        "name": $scope.name,
+                        "surname": $scope.surname,
+                    };
+            }
+            var url = 'http://localhost:8080/TaskPROIT-1.0-SNAPSHOT/resources/users';
+            $http.post(url, dataPerson, config).then(function(response) {
+                $scope.postResultMessage = response.data;
+            });
+            $scope.name = "";
+            $scope.surname = "";
+        };
+
+        $scope.deletePerson = function()
+        {
+            var url = 'http://localhost:8080/TaskPROIT-1.0-SNAPSHOT/resources/users/'
+                + $scope.selected.id;
+
+            $http.delete(url).then(function(response) {
+            });
+        }
     }]);

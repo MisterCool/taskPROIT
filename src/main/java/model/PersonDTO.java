@@ -1,13 +1,16 @@
 package model;
 
 
+import java.util.List;
+
 public class PersonDTO {
 
     private int id;
-    private int parentId;
+    private Integer parentId;
     private String name;
     private String surname;
     private Person parentPerson;
+    private List<PersonDTO> children;
 
     public Person getParentPerson() {
         return parentPerson;
@@ -19,10 +22,29 @@ public class PersonDTO {
 
     public PersonDTO(){}
 
-    public PersonDTO(int parentId, String name, String surname) {
+    public PersonDTO(int id, String name, String surname, List<PersonDTO> children, Person parentPerson) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.children = children;
+        this.parentPerson = parentPerson;
+    }
+
+    public PersonDTO(Integer parentId, String name, String surname) {
         this.parentId = parentId;
         this.name = name;
         this.surname = surname;
+    }
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getId() {
@@ -33,20 +55,16 @@ public class PersonDTO {
         this.id = id;
     }
 
-    public int getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<PersonDTO> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<PersonDTO> children) {
+        this.children = children;
     }
 
     public String getSurname() {
