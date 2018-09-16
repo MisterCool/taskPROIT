@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script type="text/javascript" src="https://wix.github.io/angular-tree-control/angular-tree-control.js"></script>
+    <script type="text/javascript" src="https://wix.github.io/angular-tree-control/context-menu.js"></script>
+    <script src="js/controller.js"></script>
+
+    <link rel="stylesheet" href="https://wix.github.io/angular-tree-control/css/tree-control.css" />
+    <link rel="stylesheet" href="https://wix.github.io/angular-tree-control/css/tree-control-attribute.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+
+</head>
+
+<body ng-app="app">
+<div ng-controller="myController">
+    <treecontrol class="tree-classic" tree-model="dataTree"
+                 options="treeOptions"
+                 selected-node="selected">
+        Person: {{node.name}} {{node.surname}}
+    </treecontrol>
+    <p>Selected node: <code>{{selected.name}}</code></p>
+    <div ng-controller="myController">
+        <form class="form-horizontal" name="customerForm">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="nameID">Name:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" name="name" id="nameID"
+                           placeholder="Enter Name" ng-model="name"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="surnameID">Surname:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" name="surname" id="surnameID"
+                           placeholder="Enter Name" ng-model="surname"/>
+                </div>
+            </div>
+            <div class="form-group" role="group" aria-label="Basic example">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" ng-click="submitForm()" class="btn btn-secondary">Submit</button>
+                    <button type="button" ng-click="deletePerson()" class="btn btn-secondary">Delete</button>
+                </div>
+            </div>
+        </form>
+        <div class="col-sm-offset-2 col-sm-10">
+            <p>id: <code>{{postResultMessage}}
+            </code></p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -30,11 +30,11 @@ public class Person {
     private String name;
     private String surname;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "parent_id")
     private Person parentPerson;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(cascade=CascadeType.REMOVE)
     @JoinColumn(name = "parent_id")
     private List<Person> children;
 

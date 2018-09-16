@@ -1,0 +1,13 @@
+<div>
+    <treecontrol class="tree-light" tree-model="dataTree"
+                 options="treeOptions"
+                 selected-node="selected">
+        {{node.name}} {{node.surname}}
+        <a href="#!/person/{{node.id}}/">
+            <i class="fas fa-angle-double-right"></i>
+        </a>
+    </treecontrol>
+    <button type="button" ng-click="showForm()" class="btn btn-secondary btn-sm">Add</button>
+
+    <button type="button" ng-click="deletePerson()" class="btn btn-secondary btn-sm">Delete</button>
+</div>

@@ -1,0 +1,27 @@
+<div id="EditableFormCtrl">
+    <form editable-form name="editableForm" onaftersave="saveUser()">
+        <div>
+            <span class="title">Name: </span>
+            <span editable-text="person.name" e-name="name" onbeforesave="checkName($data)" e-required>{{ person.name || 'empty' }}</span>
+        </div>
+
+        <div>
+            <span class="title">Surname: </span>
+            <span editable-text="person.surname" e-name="surname" onbeforesave="checkSurname($data)" e-required>{{ person.surname || 'empty' }}</span>
+        </div>
+
+        <div class="buttons">
+            <button type="button" class="btn btn-default" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
+                Edit
+            </button>
+            <span ng-show="editableForm.$visible">
+        <button type="submit" class="btn btn-primary" ng-disabled="editableForm.$waiting">
+          Save
+        </button>
+        <button type="button" class="btn btn-default" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+          Cancel
+        </button>
+      </span>
+        </div>
+    </form>
+</div>
