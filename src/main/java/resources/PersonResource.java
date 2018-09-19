@@ -15,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 @Path("users")
 public class PersonResource {
@@ -27,7 +28,7 @@ public class PersonResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPerson(@PathParam(value = "id") int id){
         Person p = personService.get(id);
-        PersonDTO personDTO = PersonTransformer.convertTreeToPersonDTO(p);
+        PersonDTO personDTO = PersonTransformer.convertListToPersonDTO(p);
         return Response.ok(personDTO).header("Access-Control-Allow-Origin", "*").build();
     }
 
@@ -50,12 +51,19 @@ public class PersonResource {
 
     @POST
     @Path("search")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response searchPerson(PersonDTO personDTO) {
-        Person person = PersonTransformer.convertToPerson(personDTO);
-        List<PersonDTO> result = personService.searchInTree(person);
-        return Response.ok(result).build();
+    public Response searchPerson(String input) {
+        List<Person> result = personService.search(input);
+        List<List<PersonDTO>> list = new ArrayList<>();
+        for (int i = 0; i < result.size(); i++) {
+            List<PersonDTO> r = new ArrayList<>();
+            list.add(PersonTransformer.getParents(result.get(i), r));
+        }
+        List<PersonDTO> listFlat = new ArrayList<>();
+        for (List<PersonDTO> integerList : list)
+            listFlat.addAll(integerList);
+        return Response.ok(listFlat).build();
     }
 
     @POST

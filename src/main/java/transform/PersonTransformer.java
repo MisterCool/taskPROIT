@@ -13,13 +13,12 @@ public class PersonTransformer {
         return person;
     }
 
-    public static PersonDTO convertTreeToPersonDTO(Person person){
+    public static PersonDTO convertListToPersonDTO(Person person){
         List<PersonDTO> listChild= new ArrayList<>();
 
         for(int i = 0; i < person.getChildren().size(); i++){
-            listChild.add(convertTreeToPersonDTO(person.getChildren().get(i)));
+            listChild.add(convertListToPersonDTO(person.getChildren().get(i)));
         }
-
 
         return new PersonDTO(person.getId(), person.getName(), person.getSurname(), listChild, null);
     }
@@ -29,12 +28,12 @@ public class PersonTransformer {
                 person.getSurname(), null, null);
     }
 
-    public static List<PersonDTO> convertListToPersonDTO(List<Person> personList){
-        List<PersonDTO> result = new ArrayList<>();
-
-        for(int i = 0; i < personList.size(); i++)
-            result.add(convertToPersonDTO(personList.get(i)));
-
-        return result;
+    public static List<PersonDTO> getParents(Person person, List<PersonDTO> list){
+        if(person.getParentPerson() == null) {
+            return null;
+        }
+        list.add(convertToPersonDTO(person.getParentPerson()));
+        getParents(person.getParentPerson(), list);
+        return list;
     }
 }

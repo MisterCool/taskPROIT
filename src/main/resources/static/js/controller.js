@@ -1,71 +1,73 @@
-angular.module('app', ['treeControl'])
-    .controller('myController', ['$scope','$http', function($scope, $http) {
+myApp.controller('myController',
+    ['$scope', '$http', 'ngDialog',
+        function ($scope, $http, ngDialog) {
 
-        $http.get('http://localhost:7001/TaskPROIT-1.0-SNAPSHOT/resources/users/tree').success(function(data) {
-            $scope.dataTree = data;
-        });
-        $scope.treeOptions = {
-            nodeChildren: "children",
-            dirSelectable: true,
-            injectClasses: {
-                ul: "a1",
-                li: "a2",
-                liSelected: "a7",
-                iExpanded: "a3",
-                iCollapsed: "a4",
-                iLeaf: "a5",
-                label: "a6",
-                labelSelected: "a8"
+            $http.get('http://localhost:7001/TaskPROIT-1.0-SNAPSHOT/resources/users/tree')
+                .then(function (response) {
+                    $scope.dataTree = response.data;
+                });
+
+            $scope.selectNode = function (selectedPerson) {
+                $scope.selected = selectedPerson;
+            };
+
+
+            $scope.showForm = function () {
+
+                ngDialog.openConfirm({
+                    template: 'view/form.html',
+                    className: 'ngdialog-theme-default',
+                    controller: 'myController',
+                    scope: $scope
+                });
             }
-        }
 
-
-        $scope.clearSelected = function() {
-            $scope.selected = undefined;
-        }
-        $scope.selectNode = function(sel) {
-            $scope.selected = sel;
-            $scope.selectedId = sel.id;
-        };
-
-        $scope.submitForm = function()
-        {
-            var config = {
-                headers : {
-                    'Content-Type':'application/json'
+            $scope.addPerson = function () {
+                var dataPerson = {
+                    parentId: null,
+                    name: $scope.name,
+                    surname: $scope.surname
                 }
+                if ($scope.selected != undefined) {
+                    dataPerson.parentId = $scope.selected.id;
+                }
+                var config = {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+                var url = 'http://localhost:8080/TaskPROIT-1.0-SNAPSHOT/resources/users';
+                $http.post(url, dataPerson, config).then(function (response) {
+                    if ($scope.selected) {
+                        $scope.selected.children.push(response.data);
+                    } else {
+                        $scope.dataTree.push(response.data);
+                    }
+                });
             }
-            if($scope.selected == undefined)
-            {
-                var dataPerson =
-                    {
-                        "parentId": "null",
-                        "name": $scope.name,
-                        "surname": $scope.surname,
-                    };
-            }
-            else {
-                var dataPerson =
-                    {
-                        "parentId": $scope.selected.id,
-                        "name": $scope.name,
-                        "surname": $scope.surname,
-                    };
-            }
-            var url = 'http://localhost:8080/TaskPROIT-1.0-SNAPSHOT/resources/users';
-            $http.post(url, dataPerson, config).then(function(response) {
-                $scope.postResultMessage = response.data;
-            });
-            $scope.name = "";
-            $scope.surname = "";
-        };
 
-        $scope.deletePerson = function()
-        {
-            var url = 'http://localhost:8080/TaskPROIT-1.0-SNAPSHOT/resources/users/'
-                + $scope.selected.id;
+            $scope.setExpanded = function () {
+                var url = 'http://localhost:8080/TaskPROIT-1.0-SNAPSHOT/resources/users/search';
+                var config = {
+                    headers: {
+                        'Content-Type': 'text/plain'
+                    }
+                }
+                $http.post(url, $scope.inputString, config).then(function (response) {
+                    $scope.expandedNodes = response.data;
+                });
+            };
 
-            $http.delete(url).then(function(response) {
-            });
-        }
-    }]);
+            $scope.deletePerson = function () {
+                var url = 'http://localhost:8080/TaskPROIT-1.0-SNAPSHOT/resources/users/'
+                    + $scope.selected.id;
+
+                $http.delete(url).then(function (response) {
+                    $http.get('http://localhost:7001/TaskPROIT-1.0-SNAPSHOT/resources/users/tree')
+                        .then(function (response) {
+                            $scope.dataTree = response.data;
+                            $scope.selected = undefined;
+                        });
+                });
+            }
+        }]);
