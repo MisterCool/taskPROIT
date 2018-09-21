@@ -32,13 +32,12 @@ public class PersonService {
             em.persist(p);
             em.flush();
             return p;
-        } else {
+        } 
             Person p = new Person(person.getName(),
                     person.getSurname(), null, null);
             em.persist(p);
             em.flush();
             return p;
-        }
     }
 
     public void delete(int id) {
